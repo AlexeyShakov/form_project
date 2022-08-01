@@ -6,7 +6,11 @@
 </head>
 <body>
     <h2>Оставьте отзыв</h2>
-    <form>
+    <form action="/" method="post">
+        {% csrf_token %}
+        {% if got_error %}
+            <p> Нельзя вводить пустое имя! </p>
+        {% endif %}
         <label for="name_id"> Имя: </label>
         <input type="text" id="name_id" name="name">
         <br>
