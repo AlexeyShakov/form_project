@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import FeedbackForm
+from .models import Feedback
 
 # Create your views here.
 def index(request):
@@ -10,6 +11,7 @@ def index(request):
         if form.is_valid():
             # Getting the dictionary out of request parameters
             print(form.cleaned_data)
+            form.save()
             return HttpResponseRedirect("/done")
     else:
         form = FeedbackForm()
