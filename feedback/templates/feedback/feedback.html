@@ -9,7 +9,7 @@
 </head>
 <body>
     <h2>Оставьте отзыв</h2>
-    <form action="/" method="post">
+    <form method="post">
         {% csrf_token %}
         {% for field in form %}
            {#        Tag "div" create a block. The next text after "div" begins with the new line#}
