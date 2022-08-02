@@ -1,14 +1,24 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'feedback/forms.css' %}">
 </head>
 <body>
     <h2>Оставьте отзыв</h2>
     <form action="/" method="post">
         {% csrf_token %}
-        {{ form }}
+        {% for field in form %}
+           {#        Tag "div" create a block. The next text after "div" begins with the new line#}
+            <div class="form-style">
+                {{ field.label_tag }}
+                {{ field.errors }}
+                {{ field }}
+            </div>
+        {% endfor%}
         <button type="submit"> Отправить </button>
     </form>
 </body>
