@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import FeedBackView, DoneView, FeedBackUpdateView, ListFeedBack
+from .views import FeedBackView, DoneView, FeedBackUpdateView, ListFeedBack, DetailFeedBack
 
 urlpatterns = [
     # Implementing logic with class-based way
@@ -9,4 +9,5 @@ urlpatterns = [
     path('done', DoneView.as_view()),
     path('<int:id_feedback>', FeedBackUpdateView.as_view()),
     path('list', ListFeedBack.as_view()),
+    path('detail/<int:id_feedback>', DetailFeedBack.as_view()),
 ]

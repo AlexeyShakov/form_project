@@ -57,12 +57,19 @@ class FeedBackUpdateView(View):
 # We can create a class with just a GET message is more easily with TemplateView
 class ListFeedBack(TemplateView):
     template_name = "feedback/list_feedback.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_feed'] = Feedback.objects.all()
         return context
 
 
+class DetailFeedBack(TemplateView):
+    template_name = "feedback/detail_feedback.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["one_row"] = Feedback.objects.get(id=kwargs["id_feedback"])
+        return context
 # FUNCTIONAL WAY!
 
 # # Create your views here.
