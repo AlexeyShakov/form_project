@@ -1,0 +1,8 @@
+{% extends 'feedback/base.html' %}
+
+{% block content %}
+    {% for key in all_feed %}
+        {{ key }}
+        <br>
+    {% endfor %}
+{% endblock %}

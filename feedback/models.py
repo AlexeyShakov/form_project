@@ -8,3 +8,6 @@ class Feedback(models.Model):
     last_name = models.CharField(max_length=15)
     feedback = models.TextField()
     rating = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return f"{self.name} - {self.last_name} - {self.feedback} - {self.rating}"

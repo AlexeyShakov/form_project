@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from .forms import FeedbackForm
 from .models import Feedback
 from django.views import View
+from django.views.generic import TemplateView
 
 # Let's make our logic with a class way not functional
 class FeedBackView(View):
@@ -52,6 +53,15 @@ class FeedBackUpdateView(View):
         return render(request, 'feedback/feedback.html', context={
             "form": form
         })
+
+# We can create a class with just a GET message is more easily with TemplateView
+class ListFeedBack(TemplateView):
+    template_name = "feedback/list_feedback.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_feed'] = Feedback.objects.all()
+        return context
+
 
 # FUNCTIONAL WAY!
 
