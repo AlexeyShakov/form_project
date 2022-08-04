@@ -4,7 +4,7 @@ from .forms import FeedbackForm
 from .models import Feedback
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 # Let's make our logic with a class way not functional
 class FeedBackView(View):
@@ -66,15 +66,15 @@ class FeedBackUpdateView(View):
 
 
 
-class DetailFeedBack(TemplateView):
-    template_name = "feedback/detail_feedback.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["one_row"] = Feedback.objects.get(id=kwargs["id_feedback"])
-        return context
+# class DetailFeedBack(TemplateView):
+#     template_name = "feedback/detail_feedback.html"
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["one_row"] = Feedback.objects.get(id=kwargs["id_feedback"])
+#         return context
 
 
-# class 'ListView' is good for displaying data from the BD
+# class 'ListView' is good for displaying all data from the DB
 class ListFeedBack(ListView):
     template_name = "feedback/list_feedback.html"
     model = Feedback
@@ -87,6 +87,16 @@ class ListFeedBack(ListView):
         queryset = super().get_queryset()
         filtered_queryset = queryset.filter(rating__gt=4)
         return filtered_queryset
+
+
+class DetailFeedBack(DetailView):
+    template_name = "feedback/detail_feedback.html"
+    model = Feedback
+    # To use DetailView we have to point the parameter with the special name 'pk'(primary key) in urls.py
+    # DetailView saves the needed data in 'context' variable with the name 'feedback'. So we have to indicate this name in .html
+    # # But we can change that by setting the needed variable
+    # context_object_name = "our_name"
+
 
 # FUNCTIONAL WAY!
 
