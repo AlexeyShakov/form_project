@@ -4,7 +4,7 @@ from .forms import FeedbackForm
 from .models import Feedback
 from django.views import View
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView, UpdateView
 
 # # Let's make our logic with a class way not functional
 # # For working with filling and getting forms we have to declare get and/or post methods in our class
@@ -28,8 +28,10 @@ from django.views.generic.edit import FormView
 #             return HttpResponseRedirect("/done")
 #         return render(request, 'feedback/feedback.html', context={"form": form})
 
-# It has the same logic as the class with the same name above
-class FeedBackView(FormView):
+
+class FeedBackViewUpdate(UpdateView):
+    # We have to point where the data is stored
+    model = Feedback
     # We have to point what form(form class) we use
     form_class = FeedbackForm
     # We send the data to .html as 'form' variable. If we send something else we get nothing in response!!!
@@ -37,10 +39,23 @@ class FeedBackView(FormView):
     # We have to point where we go after our submit has been approved
     success_url = '/done'
 
-    # This method obliges us to do something with the data from the form
-    def form_valid(self, form):
-        form.save()
-        return super(FeedBackView, self).form_valid(form)
+
+
+# It has the same logic as the class with the same name above
+class FeedBackView(CreateView):
+    # We have to point where the data is stored
+    model = Feedback
+    # We have to point what form(form class) we use
+    form_class = FeedbackForm
+    # We send the data to .html as 'form' variable. If we send something else we get nothing in response!!!
+    template_name = 'feedback/feedback.html'
+    # We have to point where we go after our submit has been approved
+    success_url = '/done'
+
+    # # This method obliges us to do something with the data from the form
+    # def form_valid(self, form):
+    #     form.save()
+    #     return super(FeedBackView, self).form_valid(form)
 
 
 class DoneView(View):
