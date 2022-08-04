@@ -1,8 +1,11 @@
 {% extends 'feedback/base.html' %}
 
 {% block content %}
-    {% for key in all_feed %}
-        {{ key }}
-        <br>
-    {% endfor %}
+    <h2>Список отзывов</h2>
+    <ol>
+        {% for key in object_list %}
+            <li> {{ key.name }} {{ key.last_name }}: {{ key.rating }}</li>
+            <br>
+        {% endfor %}
+    </ol>
 {% endblock %}

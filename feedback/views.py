@@ -4,6 +4,7 @@ from .forms import FeedbackForm
 from .models import Feedback
 from django.views import View
 from django.views.generic import TemplateView
+from django.views.generic import ListView
 
 # Let's make our logic with a class way not functional
 class FeedBackView(View):
@@ -55,13 +56,14 @@ class FeedBackUpdateView(View):
         })
 
 # We can create a class with just a GET message is more easily with TemplateView
-class ListFeedBack(TemplateView):
-    template_name = "feedback/list_feedback.html"
+# class ListFeedBack(TemplateView):
+#     template_name = "feedback/list_feedback.html"
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['all_feed'] = Feedback.objects.all()
+#         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['all_feed'] = Feedback.objects.all()
-        return context
 
 
 class DetailFeedBack(TemplateView):
@@ -70,6 +72,22 @@ class DetailFeedBack(TemplateView):
         context = super().get_context_data(**kwargs)
         context["one_row"] = Feedback.objects.get(id=kwargs["id_feedback"])
         return context
+
+
+# class 'ListView' is good for displaying data from the BD
+class ListFeedBack(ListView):
+    template_name = "feedback/list_feedback.html"
+    model = Feedback
+    # ListView put the data from the DB in the 'context' variable automatically. It creates new key for it - 'objects_list'
+    # # But we can change that by setting the needed variable
+    # context_object_name = "our_name"
+
+    # This method might be needed for filtering our data from the DB
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        filtered_queryset = queryset.filter(rating__gt=4)
+        return filtered_queryset
+
 # FUNCTIONAL WAY!
 
 # # Create your views here.
